@@ -4,10 +4,11 @@ import React, {useState, useEffect} from 'react'
 import axios from 'axios'
 
 function App() {
-  const [gender, setGender] = useState('boy')
+  const [gender, setGender] = useState('Boy')
   const [names, setNames] = useState([])
 
   useEffect(() => {
+    console.log('KEY:', process.env.REACT_APP_API_KEY)
     axios.get(`https://api.api-ninjas.com/v1/babynames?gender=${gender}`, {
       headers: {'X-Api-Key': process.env.REACT_APP_API_KEY}
     })
@@ -18,7 +19,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Baby Names!</h1>
+      <h1>Baby {gender} Names!</h1>
       {
         names.map((name) => {
           return (
@@ -26,11 +27,8 @@ function App() {
           )
         })
       }
-      <div className='gender-buttons'>
-        <button onClick={() => {setGender('boy')}}>Boy</button>
-        <button onClick={() => {setGender('neutral')}}>Neutral</button>
-      </div>
 
+      {gender === 'Neutral' ? <button className="gender-button" onClick={() => {setGender('Boy')}}>See Boy Names!</button> : <button className="gender-button" onClick={() => {setGender('Neutral')}}>See Neutral Names!</button>}
     </div>
   );
 }
